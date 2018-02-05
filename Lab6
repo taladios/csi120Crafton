@@ -23,7 +23,7 @@ public:
 		this->age = age;
 	}
 	void setName(string name) {  // Set Name
-		this->getName = name;
+		this->name = name;
 	}
 	void print() {               // Print
 		cout << "Name: " << getName() << endl;
