@@ -65,9 +65,11 @@ public:
 	}
 
 	void print() {
-		cout << "Model: " << modelName << endl
-			<< "Owner: "  << ownerPtr->print() << endl
-			<< "Driver: " << driverPtr->print() << endl;
+		cout << "Model: " << modelName << endl;
+		cout << "Owner: ";
+		ownerPtr->print();
+		cout << "Driver: ";
+		driverPtr->print();
 	}
 private:
 	string modelName;
