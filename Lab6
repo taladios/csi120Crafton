@@ -1,1 +1,82 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
 
+class Person {
+public:
+	Person() {                   // Default Constructor
+		name = "";               // Default Name / Age
+		age = 0;
+	}
+	Person(int age, string name) {
+		this->name = name;
+		this->age = age;
+	}
+	int getAge() const {         // Get the person's Age
+		return age;
+	}
+	string getName() const {     // Get the person's Name
+		return name;
+	}
+	void setAge(int age) {       // Set Age
+		this->Age = age;
+	}
+	void setName(string name) {  // Set Name
+		this->getName = name;
+	}
+	void print() {               // Print
+		cout << "Name: " << getName() << endl;
+		cout << "Age: " << getAge() << endl;
+	}
+private:
+	int age;
+	string name;
+};
+
+class Car {
+public:
+	Car() {						 // Default Constructor
+		modelName = "Maserati Gran Turismo";
+		ownerPtr = 0;
+		driverPtr = 0;
+	}
+
+	Car(string modelName, Person* ownerPtr, Person* driverPtr) {
+		this->modelName = modelName;
+		this->ownerPtr = ownerPtr;
+		this->driverPtr = driverPtr;
+	}
+
+	string getModel() {
+		return modelName;
+	}
+
+	Person getOwner() {
+		return *ownerPtr;
+	}
+
+	Person getDriver() {
+		return *driverPtr;
+	}
+
+	void setModel(string modelName) {
+		this->modelName = modelName;
+	}
+
+	void print() {
+		cout << "Model: "  << modelName << endl
+			 << "Owner: "  << ownerPtr->print() << endl
+			 << "Driver: " << 
+	}
+private:
+	string modelName;
+	Person* ownerPtr;
+	Person* driverPtr;
+};
+
+
+int main() {
+
+	return 0;
+}
