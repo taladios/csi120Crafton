@@ -20,7 +20,7 @@ public:
 		return name;
 	}
 	void setAge(int age) {       // Set Age
-		this->Age = age;
+		this->age = age;
 	}
 	void setName(string name) {  // Set Name
 		this->getName = name;
@@ -65,9 +65,9 @@ public:
 	}
 
 	void print() {
-		cout << "Model: "  << modelName << endl
-			 << "Owner: "  << ownerPtr->print() << endl
-			 << "Driver: " << 
+		cout << "Model: " << modelName << endl
+			<< "Owner: "  << ownerPtr->print() << endl
+			<< "Driver: " << driverPtr->print() << endl;
 	}
 private:
 	string modelName;
