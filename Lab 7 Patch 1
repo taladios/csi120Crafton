@@ -1,0 +1,91 @@
+// Meg-Joe-Lab7-Inheritence.cpp : Defines the entry point for the console application.
+///Doesnt work, theres a logical error i cant figure out tbh need Prof Yao to take a look at it
+//
+
+//#include "stdafx.h"
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+class Account {
+public:
+	Account() : Account(0, 0) {}
+	Account(double b, double i) : balance(b), interestRate(i) {}
+	double addDailyInterest();
+	double balance = 0;
+
+	double deposit(double amount) {
+		balance = balance + amount;
+		return balance;
+	}
+	double withdrawal(double amount) {
+		balance = balance + amount;
+		return balance;
+	}
+
+protected:
+	double amount;
+
+	double interestRate = 0;
+	double newBalance = 0;
+
+};
+
+class Checking : public Account {
+public:
+	//Checking operator+(Checking rhs);
+	//Checking();
+	double addDailyInterest(double b) {
+		Account::balance = b;
+		//b = b + add - subtract;
+		if (b >= 1000) interestRate = .005;// constructor setting the interest rate
+		else interestRate = 0;
+
+		newBalance = balance * interestRate;
+		balance = newBalance + balance;
+		return balance;
+	}
+	// override addDailyInterest
+
+};
+
+class Saving : public Account {
+public:
+	//Saving();
+	double addDailyInterest(double b) {
+		Account::balance = b;
+		//b = b + add - subtract;
+		interestRate = .02;
+		newBalance = balance * interestRate;
+		balance = balance + newBalance;
+		return balance;
+	}
+};
+int main() {
+	double balance = 0;
+	// create a savings object
+	Saving account1;
+	account1.addDailyInterest(balance);
+
+	// create a checking object
+	Checking account2;
+	account2.addDailyInterest(balance);
+	
+
+	account1.deposit(1000);
+
+	// loop over 30 days
+	for (int i = 0; i <= 30; i++) {
+		account1.addDailyInterest(balance);
+		account2.addDailyInterest(balance);
+	}
+	// call addDailyInterest on each object
+
+	cout << account1.balance << endl;
+	system("PAUSE");
+
+	// show balance
+
+	return 0;
+}
