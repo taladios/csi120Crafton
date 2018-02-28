@@ -1,0 +1,115 @@
+// ConsoleApplication1.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Appointment {
+public:
+	Appointment(){}
+	Appointment(int y, int m, int d) {
+		year = y;
+		month = m;
+		day = d;
+	}
+
+	int startDateAdder(int y, int m, int d) {
+		start = (y * 365) + (m * 30) + d; 
+		return start;
+	}
+
+	virtual bool hasFutureAppointmentOn() {
+		if (start < future) {
+			
+		}
+			return true;
+		}
+		
+	int futureDateAdder(int y, int m, int d) {
+		future = (y * 365) + (m * 30) + d;
+		return future;
+	}
+	
+	void setDescription(string d) {
+		description = d;
+
+	}
+
+	string getDescription() {
+		return description;
+	}
+
+protected:
+	string description;
+	int start;
+	int future;
+	int year;
+	int month;
+	int day;
+};
+
+class Dailyappointment : public Appointment {
+
+public:
+	//check if it returns true
+	virtual bool hasFutureAppointmentOn() {
+		if (start < future) {
+
+		}
+		return true;
+	}
+	
+
+private:
+
+
+};
+
+class Monthlyappointment : public Appointment {
+
+public:
+	//check if it returns true
+	virtual bool hasFutureAppointmentOn() {
+		if ((start < future) && (day == day)) {
+
+		}
+		return true;
+	}
+
+};
+
+class Yearlyappointment : public Appointment {
+
+public:
+	// check if it returns true 
+	virtual bool hasFutureAppointmentOn() {
+		if ((start < future) && (day == day) && (month == month)) {
+
+		}
+		return true;
+	}
+};
+
+
+
+int main()
+{
+	Appointment doctor; 
+	cout << "What is your appointment called? ";
+	
+	doctor.startDateAdder(2018, 2, 28);
+	doctor.futureDateAdder(2018, 3, 14);
+
+	doctor.hasFutureAppointmentOn();
+	doctor.setDescription(" See Doctor for check-up.\n");
+	
+	cout << doctor.getDescription();
+
+	//Dailyappointment dailyCheck;
+	//dailyCheck.hasFutureAppointmentOn();
+
+    return 0;
+}
