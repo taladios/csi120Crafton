@@ -1,0 +1,87 @@
+
+#include<iostream>
+#include<string>
+#include<vector>
+
+
+using namespace std;
+
+class Appointment {
+public:
+	Appointment() : day(1), month(1), year(0000), description("") {}
+	Appointment(int d, int m, int y, string des) : day(d), month(m), year(y), description(des) {}
+	virtual bool hasFutureAppointment(int d, int m, int y) {
+
+	}
+
+protected:
+	int day, month, year;
+	string description;
+};
+
+class yearlyAppointment : public Appointment {
+public:
+	yearlyAppointment(int d, int m, int y, string des) : Appointment(d, m, y, des) {}
+	bool hasFutureAppointment(int d, int m, int y) {
+		if (d == day && m == month && y >= year) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+};
+class monthlyAppointment : public yearlyAppointment {
+public:
+	monthlyAppointment(int d, int m, int y, string des) : yearlyAppointment(d, m, y, des) {}
+	bool hasFutureAppointment(int d, int m, int y) {
+		if (d == day && m >= month && y >= year) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+};
+class dailyyAppointment : public monthlyAppointment {
+public:
+	dailyyAppointment(int d, int m, int y, string des) : monthlyAppointment(d, m, y, des) {}
+	bool hasFutureAppointment(int d, int m, int y) {
+		if (d >= day && m >= month && y >= year) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+};
+
+
+
+
+int main() {
+
+	vector<Appointment*>appointmentList;
+
+	appointmentList.push_back(new yearlyAppointment(25, 3, 2020, "checkup"));
+	appointmentList.push_back(new monthlyAppointment(30, 1, 2021, "Physical"));
+	appointmentList.push_back(new dailyyAppointment(10, 8, 2022, "Dialysis"));
+
+	char quit = 'y';
+	int uD, uM, uY;
+	while (quit != 'n') {
+		cout << "Enter year of appointment: ";
+		cin >> uY;
+		cout << "Enter month of appointment: ";
+		cin >> uM;
+		cout << "Enter day of appointment: ";
+		cin >> uD;
+
+
+	}
+	
+
+	system("PAUSE");
+	return 0;
+}
