@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -18,10 +19,13 @@ public:
 
 	int startDateAdder(int y, int m, int d) {
 		start = (y * 365) + (m * 30) + d;
+		day = d;
+		month = m;
+		year = y;
 		return start;
 	}
 
-	virtual bool hasFutureAppointmentOn() {
+	virtual bool hasFutureAppointmentOn(int y, int m, int d) {
 		if (start < future) {
 			cout << "There is an appointment.\n";
 		}
@@ -55,11 +59,22 @@ class Dailyappointment : public Appointment {
 
 public:
 	//check if it returns true
-	bool hasFutureAppointmentOn() {
+
+	Dailyappointment() : Appointment() {};
+	Dailyappointment(int y, int m, int d) : Appointment(y, m, d) {};
+
+	bool hasFutureAppointmentOn(int y, int m, int d) {
+		futureDateAdder(y, m, d);
 		if (start < future) {
 			cout << "There is a daily appointment.\n";
+			return true;
 		}
-		return true;
+		else {
+			cout << start << " " << future << endl;
+			cout << "This is broken.\n";
+			return false;
+		}
+		
 	}
 
 
@@ -72,11 +87,24 @@ class Monthlyappointment : public Appointment {
 
 public:
 	//check if it returns true
-	bool hasFutureAppointmentOn() {
-		if ((start < future) && (day == day)) {
+
+	Monthlyappointment() : Appointment() {};
+	Monthlyappointment(int y, int m, int d) : Appointment(y, m, d) {};
+
+	bool hasFutureAppointmentOn(int y, int m, int d) {
+		futureDateAdder(y, m, d); 
+		if ((start < future) && (d == day)) {
 			cout << "There is a monthly appointment.\n";
+			return true;
 		}
-		return true;
+		else {
+			
+			cout << "There is not a monthly appointment.\n";
+			cout << d << " " << day << endl;
+			cout << start << " " << future << endl;
+			return false;
+		}
+		
 	}
 
 };
@@ -85,11 +113,20 @@ class Yearlyappointment : public Appointment {
 
 public:
 	// check if it returns true 
-	virtual bool hasFutureAppointmentOn() {
-		if ((start < future) && (day == day) && (month == month)) {
+	Yearlyappointment() : Appointment() {};
+	Yearlyappointment(int y, int m, int d) : Appointment(y, m, d) {};
+
+	virtual bool hasFutureAppointmentOn(int y, int m, int d) {
+		futureDateAdder(y, m, d);
+		if ((start < future) && (d == day) && (m == month)) {
 			cout << "There is a yearly appointment.\n";
+			return true;
 		}
-		return true;
+		else {
+			cout << "There is not a yearly appointment.\n";
+			return false;
+		}
+		
 	}
 };
 
@@ -97,21 +134,53 @@ public:
 
 int main()
 {
-	Appointment appointment;
+	//Appointment appointment;
 	string appointmentDescription;
-	cout << "What is your appointment called? ";
+	Dailyappointment dailyCheck;
+	Monthlyappointment monthlyCheck;
+	Yearlyappointment yearlyCheck;
+
+	cout << "What is your Daily appointment called? ";
 	getline(cin, appointmentDescription);
 
-	appointment.startDateAdder(2018, 2, 28);
-	appointment.futureDateAdder(2018, 3, 14);
+	//appointment.startDateAdder(2018, 2, 28);
+	//appointment.futureDateAdder(2018, 3, 14);
 
-	appointment.setDescription(appointmentDescription);
-	cout << appointment.getDescription() << endl << endl;
+	//appointment.setDescription(appointmentDescription);
+	dailyCheck.setDescription(appointmentDescription);
+	cout << dailyCheck.getDescription() << endl << endl;
 
-	appointment.hasFutureAppointmentOn();
+	cout << "What is your Monthly appointment called? ";
+	getline(cin, appointmentDescription);
 
-	Dailyappointment dailyCheck;
-	dailyCheck.hasFutureAppointmentOn();
+	monthlyCheck.setDescription(appointmentDescription);
+	cout << monthlyCheck.getDescription() << endl << endl;
+
+	cout << "What is your Yearly appointment called? ";
+	getline(cin, appointmentDescription);
+
+	yearlyCheck.setDescription(appointmentDescription);
+	cout << yearlyCheck.getDescription() << endl << endl;
+
+	
+	dailyCheck.startDateAdder(2018, 2, 28);
+	
+	monthlyCheck.startDateAdder(2017, 5, 14);
+	
+	yearlyCheck.startDateAdder(2016, 3, 14);
+	
+	vector<Appointment*> List;
+
+	List.push_back(&dailyCheck);
+	List.push_back(&monthlyCheck);
+	List.push_back(&yearlyCheck);
+
+	for (int i = 0; i < List.size(); i++)
+	{
+		cout << List.at(i)->getDescription() << endl;
+		List.at(i)->hasFutureAppointmentOn(2018, 3, 14);
+		
+	}
 
 	return 0;
 }
