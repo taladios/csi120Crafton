@@ -1,3 +1,5 @@
+// ConsoleApplication1.cpp : Defines the entry point for the console application.
+//
 
 #include "stdafx.h"
 #include <iostream>
@@ -21,7 +23,7 @@ public:
 
 	virtual bool hasFutureAppointmentOn() {
 		if (start < future) {
-
+			cout << "There is an appointment.\n";
 		}
 		return true;
 	}
@@ -103,12 +105,10 @@ int main()
 	appointment.startDateAdder(2018, 2, 28);
 	appointment.futureDateAdder(2018, 3, 14);
 
-	cout << appointment.startDateAdder << " vs " << appointment.futureDateAdder << endl;
+	appointment.setDescription(appointmentDescription);
+	cout << appointment.getDescription() << endl << endl;
 
 	appointment.hasFutureAppointmentOn();
-	appointment.setDescription(appointmentDescription);
-
-	cout << appointment.getDescription();
 
 	Dailyappointment dailyCheck;
 	dailyCheck.hasFutureAppointmentOn();
