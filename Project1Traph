@@ -1,0 +1,23 @@
+#pragma once
+#ifndef TRAP_H
+#define TRAP_H
+#include "Entity.h"
+
+using namespace std;
+
+class Trap : public Entity {
+public:
+	Trap();
+
+	Trap(int scoreValue);
+
+	int getScoreUpdate(int timeDelay);			//returns a negative score that is 10* the penaltyLevel + the timeDelay
+
+	string say();			//update the messageBoard and play sound
+
+private:
+	int penaltyLevel;		//number from 1-10 that is multiplied by 10 and subtracted from game score
+
+};
+
+#endif
