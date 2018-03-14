@@ -1,0 +1,17 @@
+#include "Prize.h"
+
+using namespace std;
+
+Prize::Prize() : Entity() {};
+
+Prize::Prize(int scoreValue) : Entity(x, y, xLimit, yLimit, spriteFile, type) {
+	prizeLevel = scoreValue;
+};
+
+int Prize::getScoreUpdate(int timeDelay) {
+	return 0;
+}
+
+string Prize::say() {
+	return message;
+}
