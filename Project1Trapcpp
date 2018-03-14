@@ -1,0 +1,17 @@
+#include "Trap.h"
+
+using namespace std;
+
+Trap::Trap() : Entity() {};
+
+Trap::Trap(int scoreValue) : Entity(x, y, xLimit, yLimit, spriteFile, type) {
+	penaltyLevel = scoreValue;
+};
+
+int Trap::getScoreUpdate(int timeDelay) { 
+	return 0; 
+}
+
+string Trap::say() {
+	return message;
+}
