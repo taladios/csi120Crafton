@@ -1,10 +1,10 @@
 /****************************************************************
-File:			Entity.cpp
-Description:	Member function definitions for class Entity
-Author:
+File:			entity.cpp
+Description:	Project 1
+Author:			Gerald Blackmon / Joe Wood
 Class:			CSCI 120
-Date:
-I hereby certify that this program is entirely my own work.
+Date:			03/13/2018
+I hereby certify that this program is entirely our own work.
 *****************************************************************/
 
 #include <SFML/Graphics.hpp>
@@ -22,7 +22,7 @@ Entity::Entity() {
 	yLimit = 0;
 	type = DEFAULT;
 }
-	
+
 Entity::Entity(int x, int y, int xLimit, int yLimit, std::string spriteFile, EntityType type) {
 	if (!texture.loadFromFile(spriteFile)) {
 		cout << "Error loading " << spriteFile << endl;
@@ -35,11 +35,11 @@ Entity::Entity(int x, int y, int xLimit, int yLimit, std::string spriteFile, Ent
 	this->spriteFile = spriteFile;
 	this->type = type;
 }
-	
+
 int Entity::getX() {
 	return x;
 }
-	
+
 int Entity::getY() {
 	return y;
 }
