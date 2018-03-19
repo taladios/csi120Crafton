@@ -1,10 +1,10 @@
 /****************************************************************
-File:			Entity.h
-Description:	Class and enumeration declaration related to game entities 
-Author:			Gerald Blackmon & Joe Wood
+File:			entity.h
+Description:	Project 1
+Author:			Gerald Blackmon / Joe Wood
 Class:			CSCI 120
-Date:			3/13/18
-I hereby certify that this program is entirely my own work.
+Date:			03/13/2018
+I hereby certify that this program is entirely our own work.
 *****************************************************************/
 
 #ifndef ENTITY_H
@@ -83,22 +83,19 @@ public:
 	 */
 	EntityType getType();
 
-	virtual int getScoreUpdate(int timeDelay) { return 0; }
-
-	virtual string say() { return message; }
+	virtual string say() { return "Message: none"; }
 
 protected:
 	int x;	// x-coordinate of location (lowest value is 0)
 	int y;	// y-coordinate of location (lowest value is 0)
 	int xLimit; // highest value of x-coordinate
 	int yLimit; // highest value of y-coordinate
-	std::string spriteFile; // path to sprite image
+	string spriteFile; // path to sprite image
 	sf::Sprite sprite;	// Sprite object
 	sf::Texture texture; // texture for sprite
 	EntityType type; // type of entity
-	std::string name; // name of entity
-	std::string message;
-	//sf::Sound ourSound;	FIXME when other classes are complete
+	string name; // name of entity
+	string message = "stuff";
 };
 
 #endif
