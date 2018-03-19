@@ -11,7 +11,11 @@ I hereby certify that this program is entirely our own work.
 #include <SFML/Audio.hpp>
 #include <time.h>
 #include <vector>
+#include <thread>
+#include <chrono>
 #include "Entity.h"
+#include "Prize.h"
+#include "Trap.h"
 
 using namespace std;
 
@@ -21,18 +25,18 @@ const int SIZE_SPRITE = 48;		// size of a sprite (square)
 const int WIDTH = SIZE_SPRITE * NUM_HORIZONTAL;	// width of the game window
 const int HEIGHT = SIZE_SPRITE * (NUM_VERTICAL + 2);	// height of the game window (including score and message board)
 
-enum Direction {NONE, UP, DOWN, LEFT, RIGHT};
+enum Direction { NONE, UP, DOWN, LEFT, RIGHT };
 
 /*
- * Determines and returns the type of collision between a player and another entity 
- * in a given vector. The location is based on the current position of the player 
- * moving towards the given direction of movement. In the case of colliding with 
- * a prize entity, the entity is removed from the vector.
- * @param entityPtrVector vector containing pointers to entities in the game
- * @param x x-coordinate of the current player location 
- * @param y y-coordinate of the current player location
- * @param dir direction of the player movement
- */
+* Determines and returns the type of collision between a player and another entity
+* in a given vector. The location is based on the current position of the player
+* moving towards the given direction of movement. In the case of colliding with
+* a prize entity, the entity is removed from the vector.
+* @param entityPtrVector vector containing pointers to entities in the game
+* @param x x-coordinate of the current player location
+* @param y y-coordinate of the current player location
+* @param dir direction of the player movement
+*/
 EntityType checkCollision(Entity* entityPtrGrid[NUM_HORIZONTAL][NUM_VERTICAL], int x, int y, Direction dir) {
 	if (dir == UP) {
 		y--;
@@ -46,16 +50,16 @@ EntityType checkCollision(Entity* entityPtrGrid[NUM_HORIZONTAL][NUM_VERTICAL], i
 	else if (dir == RIGHT) {
 		x++;
 	}
-	if (x >= 0 && y >= 0 && x < NUM_HORIZONTAL && y < NUM_VERTICAL && entityPtrGrid[x][y] != NULL) {	
+	if (x >= 0 && y >= 0 && x < NUM_HORIZONTAL && y < NUM_VERTICAL && entityPtrGrid[x][y] != NULL) {
 		Entity* entity = entityPtrGrid[x][y];
-			if (entity->getType() == PRIZE) {
-				delete entity;
-				entityPtrGrid[x][y] = NULL;
-				return PRIZE;
-			}
-			else
-				return entityPtrGrid[x][y]->getType();
+		if (entity->getType() == PRIZE) {
+			delete entity;
+			entityPtrGrid[x][y] = NULL;
+			return PRIZE;
 		}
+		else
+			return entityPtrGrid[x][y]->getType();
+	}
 
 	return UNKNOWN;
 }
@@ -63,9 +67,10 @@ EntityType checkCollision(Entity* entityPtrGrid[NUM_HORIZONTAL][NUM_VERTICAL], i
 int main()
 {
 	Entity* entityPtrGrid[NUM_HORIZONTAL][NUM_VERTICAL]; // vector containing all game entities (player, prizes, walls)
+
 	int x;
 	int y;
-		
+
 	for (int i = 0; i < NUM_HORIZONTAL; ++i)
 		for (int j = 0; j < NUM_VERTICAL; ++j)
 			entityPtrGrid[i][j] = NULL;
@@ -85,13 +90,13 @@ int main()
 		y = rand() % NUM_VERTICAL;
 		if (entityPtrGrid[x][y] == NULL) {
 			++numPrizes;
-			entityPtrGrid[x][y] = new Entity(x, y, NUM_HORIZONTAL - 1, NUM_VERTICAL - 1, "resources/burger.png", PRIZE);
+			entityPtrGrid[x][y] = new Prize((rand() % 10 + 1), x, y, NUM_HORIZONTAL - 1, NUM_VERTICAL - 1, "resources/burger.png", PRIZE);
 		}
 	} while (numPrizes < 5);
 
 	// create wall entities
 	int numWalls = 0;
-	do{	
+	do {
 		x = rand() % NUM_HORIZONTAL;
 		y = rand() % NUM_VERTICAL;
 		if (entityPtrGrid[x][y] == NULL) {
@@ -107,10 +112,20 @@ int main()
 		y = rand() % NUM_VERTICAL;
 		if (entityPtrGrid[x][y] == NULL) {
 			++numTraps;
-			entityPtrGrid[x][y] = new Entity(x, y, NUM_HORIZONTAL - 1, NUM_VERTICAL - 1, "resources/soldier.png", TRAP);
+			entityPtrGrid[x][y] = new Trap((rand() % 10 + 1), x, y, NUM_HORIZONTAL - 1, NUM_VERTICAL - 1, "resources/soldier.png", TRAP);
 		}
 	} while (numTraps < 5);
-	
+
+	// creates end-of-game destination
+	int numDest = 0;
+	do {
+		x = rand() % NUM_HORIZONTAL;
+		y = rand() % NUM_VERTICAL;
+		if (entityPtrGrid[x][y] == NULL) {
+			++numDest;
+			entityPtrGrid[x][y] = new Entity(x, y, NUM_HORIZONTAL - 1, NUM_VERTICAL - 1, "resources/boy.png", DESTINATION);
+		}
+	} while (numDest < 1);
 
 
 	// load background sprite
@@ -122,7 +137,7 @@ int main()
 	}
 	sf::Sprite backgroundSprite;
 	backgroundSprite.setTexture(texture);
-	
+
 	// load the text font
 	sf::Font font;
 	if (!font.loadFromFile("resources/Quicksand-Regular.otf")) {
@@ -138,16 +153,16 @@ int main()
 	scoreBoard.setPosition(10.f, (NUM_VERTICAL + 1) * SIZE_SPRITE); // at the bottom of the window
 	scoreBoard.setFillColor(sf::Color::Black);
 	scoreBoard.setString("Score: 0");
-	
+
 	// initialize message board
 	sf::Text messageBoard;
 	messageBoard.setFont(font);
 	messageBoard.setCharacterSize(25);
 	messageBoard.setPosition(10.f, NUM_VERTICAL * SIZE_SPRITE); // at the bottom of the window
 	messageBoard.setFillColor(sf::Color::Blue);
-	messageBoard.setString("Message: none.");				//FIXME pull from entity function say()
+	messageBoard.setString("Message: none");				//FIXME pull from entity function say()
 
-	// load the sound used in the game
+															// load the sound used in the game
 	sf::SoundBuffer backgroundSoundBuffer;
 	if (!backgroundSoundBuffer.loadFromFile("resources/awesomeness.wav")) {
 		std::cout << "cannot open audio";
@@ -165,13 +180,22 @@ int main()
 	}
 	sf::Sound prizeSound(prizeSoundBuffer);
 
+	sf::SoundBuffer destSoundBuffer;
+	if (!destSoundBuffer.loadFromFile("resources/foom.wav")) {
+		std::cout << "cannot open audio";
+		sf::sleep(sf::seconds(5));
+		return EXIT_FAILURE;
+	}
+
+	sf::Sound destSound(destSoundBuffer);
+
 	// timer for time delays
 	sf::Clock clock;
 	float timer = 0, delay = 0.2;
 
 	Direction dir = NONE; // direction of player move
 
-	// main game loop
+						  // main game loop
 	while (window.isOpen())
 	{
 		float time = clock.getElapsedTime().asSeconds();
@@ -199,15 +223,24 @@ int main()
 		}
 
 		if (timer > delay) { // time delay to accomodate user key input 
-			timer = 0; 
-
+			timer = 0;
+			
 			// check for collision
 			EntityType collisionType = checkCollision(entityPtrGrid, player.getX(), player.getY(), dir);
-			if (collisionType == PRIZE)
+			if (collisionType == PRIZE) {
 				prizeSound.play(); // play prize sound
+				messageBoard.setString("NOM!");
+				//messageBoard.setString(entityPtrGrid[player.getX][player.getY]->say());
 
-			// update player position based on direction
-			if (collisionType != WALL) { 
+				//entityPtrGrid[x][y] = new Entity(x, y, NUM_HORIZONTAL - 1, NUM_VERTICAL - 1, "resources/wall.png", WALL);
+
+			}
+			if (collisionType == TRAP) {
+				prizeSound.play(); // play prize sound
+				messageBoard.setString("OUCH!");
+			}
+								   // update player position based on direction
+			if (collisionType != WALL) {
 				entityPtrGrid[player.getX()][player.getY()] = NULL;
 				if (dir == UP) {
 					player.moveUp();
@@ -224,6 +257,17 @@ int main()
 				entityPtrGrid[player.getX()][player.getY()] = &player;
 				dir = NONE;
 			}
+			if (collisionType == DESTINATION)
+			{
+				
+				messageBoard.setString("Message: My Hero!");
+				destSound.play(); //FIXME change to destination sound - something like people cheering? a girl kissing a boy?
+				//sf::sleep(sf::seconds(2));
+				//messageBoard.setString("Message: Thanks for playing!");
+				
+				
+			}
+
 		}
 
 		// draw game interface
@@ -232,17 +276,17 @@ int main()
 		window.draw(scoreBoard); // display score board
 		window.draw(messageBoard); // display message board
 
-		// draw all adventure game sprites
-		for (int i = 0; i < NUM_HORIZONTAL; ++i) 
+								   // draw all adventure game sprites
+		for (int i = 0; i < NUM_HORIZONTAL; ++i)
 			for (int j = 0; j < NUM_VERTICAL; ++j)
-		{
-			Entity* entity = entityPtrGrid[i][j];
-			if (entity != NULL) {
-				sf::Sprite sprite = entity->getSprite();
-				sprite.setPosition(i * SIZE_SPRITE, j * SIZE_SPRITE);
-				window.draw(sprite);
+			{
+				Entity* entity = entityPtrGrid[i][j];
+				if (entity != NULL) {
+					sf::Sprite sprite = entity->getSprite();
+					sprite.setPosition(i * SIZE_SPRITE, j * SIZE_SPRITE);
+					window.draw(sprite);
+				}
 			}
-		}
 		window.display();
 	}
 
