@@ -1,3 +1,12 @@
+/****************************************************************
+File:			prize.h
+Description:	Project 1
+Author:			Gerald Blackmon / Joe Wood
+Class:			CSCI 120
+Date:			03/13/2018
+I hereby certify that this program is entirely our own work.
+*****************************************************************/
+
 #pragma once
 #ifndef PRIZE_H
 #define PRIZE_H
@@ -9,7 +18,7 @@ class Prize : public Entity {
 public:
 	Prize();		//default contructor
 
-	Prize(int scoreValue);
+	Prize(int scoreValue, int x, int y, int xLimit, int yLimit, string spriteFile, EntityType type);
 
 	int getScoreUpdate(int timeDelay);			//updates score proportionally to the prizeLevel, but inversely proportionally to timeDelay
 
@@ -17,7 +26,7 @@ public:
 
 private:
 	int prizeLevel;			//number from 1-10 that is the value of the prize in terms of the game score
-
+	
 };
 
 #endif
