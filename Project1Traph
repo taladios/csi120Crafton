@@ -1,3 +1,12 @@
+/****************************************************************
+File:			trap.h
+Description:	Project 1
+Author:			Gerald Blackmon / Joe Wood
+Class:			CSCI 120
+Date:			03/13/2018
+I hereby certify that this program is entirely our own work.
+*****************************************************************/
+
 #pragma once
 #ifndef TRAP_H
 #define TRAP_H
@@ -9,7 +18,7 @@ class Trap : public Entity {
 public:
 	Trap();
 
-	Trap(int scoreValue);
+	Trap(int scoreValue, int x, int y, int xLimit, int yLimit, string spriteFile, EntityType type);
 
 	int getScoreUpdate(int timeDelay);			//returns a negative score that is 10* the penaltyLevel + the timeDelay
 
