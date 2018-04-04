@@ -1,0 +1,71 @@
+#include <SFML/Graphics.hpp>
+#include <iostream>
+
+using namespace std;
+
+class SquareDrawer
+{
+public:
+	SquareDrawer(sf::RenderWindow &Window);
+
+	void RecursiveSquare(int, int, int, float);
+	void SquareDraw(int centerx, int centery, int width);
+
+private:
+	sf::RenderWindow &Window;
+};
+SquareDrawer::SquareDrawer(sf::RenderWindow &myWindow) :
+	Window(myWindow)
+{}
+
+void SquareDraw(int centerx, int centery, int width)
+{
+	sf::RenderWindow App(sf::VideoMode(800, 600), "SFML Window");
+	App.setFramerateLimit(60);
+	App.draw((sf::Shape::Rectangle(centerx - width, centery - width, centerx + width, centery + width, sf::Color(rand() % 256, rand() % 256, rand() % 256), 1, sf::Color(255, 102, 51))));
+}
+void RecursiveSquare(int n, int centerx, int centery, float size)
+{
+	if (n == 1)
+	{
+		SquareDraw(centerx, centery, size);
+	}
+	else
+	{
+		SquareDraw(centerx, centery, size);
+		RecursiveSquare(n - 1, centerx + size / 2, centery + size / 2, size / 2.5);
+		RecursiveSquare(n - 1, centerx - size / 2, centery + size / 2, size / 2.5);
+		RecursiveSquare(n - 1, centerx + size / 2, centery - size / 2, size / 2.5);
+		RecursiveSquare(n - 1, centerx - size / 2, centery - size / 2, size / 2.5);
+	}
+}
+
+int main()
+{
+	int depth = 0;
+
+	cout << "How many parts deep would you like your fractal?\n";
+	cin >> depth;
+	sf::RenderWindow App(sf::VideoMode(800, 600), "SFML Window");
+	App.setFramerateLimit(60);
+	SquareDrawer Draw(App);
+
+	while (App.isOpen())
+	{
+		sf::Event Event;
+		while (App.pollEvent(Event))
+		{
+			if (Event.type == sf::Event::Closed)
+				App.close();
+		}
+
+		App.clear();
+
+		RecursiveSquare(depth, 400, 300, 200);
+
+		App.display();
+	}
+
+	return EXIT_SUCCESS;
+
+}
