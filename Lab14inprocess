@@ -1,0 +1,137 @@
+#include "stdafx.h"
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+	Node() {
+		data = 0;
+		next = 0;
+	}
+	Node(int data, Node* next) {
+		this->data = data;
+		this->next = next;
+	}
+	int getData() const {
+		return data;
+	}
+	Node* getNext() const {
+		return next;
+	}
+	void setData(int data) {
+		this->data = data;
+	}
+	void setNext(Node* next) {
+		this->next = next;
+	}
+private:
+	int data;
+	Node* next;
+};
+
+class SList {
+public:
+	SList() {
+		head = 0;
+	}
+	SList(Node* head) {
+		this->head = head;
+	}
+	void insertAfter(Node* currNode, Node* newNode) {
+		if (isEmpty())
+			head = newNode;
+		else if (currNode == NULL) {	// insert at the front of the list
+			newNode->setNext(head);
+			head = newNode;
+		}
+		else {
+			newNode->setNext(currNode->getNext());
+			currNode->setNext(newNode);
+		}
+	}
+	bool isEmpty() const {
+		return head == NULL;
+	}
+	Node* search(int key) {
+		Node* sNode = head;
+		while (sNode != NULL) {
+			if (sNode->getData() == key)
+				return sNode;
+			else
+				sNode = sNode->getNext();
+		}
+		return 0;
+	}
+	void removeAfter(Node* currNode) {
+		if (currNode == NULL) { // remove first node
+			if (head != NULL)
+				head = head->getNext();
+		}
+		else if (currNode->getNext() != NULL) {
+			currNode->setNext(currNode->getNext()->getNext());
+			delete currNode; //deallocate memory of node that got removed**
+		}
+	}
+	friend ostream& operator<<(ostream& out, SList list) {
+		Node* sNode = list.head;
+		while (sNode != NULL) {
+			out << sNode->getData() << " ";
+			sNode = sNode->getNext();
+		}
+		out << endl;
+		return out;
+	}
+	//size function to return node count**
+	int size(Node* currNode) {
+		Node* sNode = currNode;
+		int count = 0;
+		while (sNode != NULL) {
+			++count;
+			sNode = sNode->getNext();
+		}
+	}
+	//append function to add list2 nodes to the end of list1
+	void appendList(SList list) {
+		
+	}
+private:
+	Node* head;
+};
+
+int main() {
+	Node *nodePtr1 = new Node(1, NULL),
+		*nodePtr2 = new Node(2, NULL), *nodePtr3 = new Node(3, NULL),
+		*nodePtr4 = new Node(4, NULL);
+	SList list(nodePtr3);
+	cout << list;
+	list.insertAfter(NULL, nodePtr1);
+	cout << list;
+	list.insertAfter(nodePtr1, nodePtr2);
+	cout << list;
+	list.insertAfter(nodePtr3, nodePtr4);
+	cout << list;
+
+	Node* found = list.search(3);
+	if (found != NULL)
+		cout << "found " << found->getData() << endl;
+	else
+		cout << "key 3 not found\n";
+
+	found = list.search(7);
+	if (found != NULL)
+		cout << "found " << found->getData() << endl;
+	else
+		cout << "key 7 not found\n";
+
+	list.removeAfter(NULL);
+	cout << list;
+	list.removeAfter(nodePtr2);
+	cout << list;
+	list.removeAfter(nodePtr2);
+	cout << list;
+	list.removeAfter(nodePtr2);
+	cout << list;
+
+	system("PAUSE");
+	return 0;
+}
