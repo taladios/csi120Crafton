@@ -1,0 +1,5 @@
+series1->Points->Remove(dataPoint1);
+		dataPoint1 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(100, progressBar1->Value *2));
+		series1->Points->Add(dataPoint1);
+		chartArea1->RecalculateAxesScale();
+		chart1->Refresh();
