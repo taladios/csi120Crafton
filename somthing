@@ -1,0 +1,95 @@
+		
+private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
+	sFile.push_back((100 - percentBar)/20);
+	sFile.push_back((100 - coalPercentBar) / 20);
+	sFile.push_back((100 - cowPercentBar) / 20);
+	sFile.push_back((100 - treePercentBar) / 20);
+	sFile.push_back((100 - turbinePercentBar) / 20);
+}
+private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
+	coalPercentBar = 100;
+	percentBar = 100;
+	cowPercentBar = 100;
+	treePercentBar = 100;
+	turbinePercentBar = 100;
+	progressBar1->Value = 50;
+	progressBar2->Value = 50;
+	progressBar3->Value = 50;
+	progressBar6->Value = 50;
+	progressBar5->Value = 50;
+		if (sFile.back() > 0) {
+			int temp = sFile.back();
+			while (temp > 0) {
+				button9_Click(sender, e);
+				--temp;
+			}
+		}
+		if (sFile.back() < 0) {
+			int temp = sFile.back();
+			while (temp < 0) {
+				button10_Click(sender, e);
+				++temp;
+			}
+		}
+		sFile.pop_back();
+		if (sFile.back() > 0) {
+			int temp = sFile.back();
+			while (temp > 0) {
+				button11_Click(sender, e);
+				--temp;
+			}
+		}
+		if (sFile.back() < 0) {
+			int temp = sFile.back();
+			while (temp < 0) {
+				button12_Click(sender, e);
+				++temp;
+			}
+		}
+		sFile.pop_back();
+		if (sFile.back() > 0) {
+			int temp = sFile.back();
+			while (temp > 0) {
+				button5_Click(sender, e);
+				--temp;
+			}
+		}
+		if (sFile.back() < 0) {
+			int temp = sFile.back();
+			while (temp <0) {
+				button6_Click(sender, e);
+				++temp;
+			}
+		}
+		sFile.pop_back();
+		if (sFile.back() > 0) {
+			int temp = sFile.back();
+			while (temp > 0) {
+				button3_Click(sender, e);
+				--temp;
+			}
+		}
+		if (sFile.back() < 0) {
+			int temp = sFile.back();
+			while (temp < 0) {
+				button4_Click(sender, e);
+				++temp;
+			}
+		}
+		sFile.pop_back();
+		if (sFile.back() > 0) {
+			int temp = sFile.back();
+			while (temp > 0) {
+				button2_Click(sender, e);
+				--temp;
+			}
+		}
+		if (sFile.back() < 0) {
+			int temp = sFile.back();
+			while (temp < 0) {
+				button1_Click_1(sender, e);
+				++temp;
+			}
+		}
+		sFile.pop_back();
+}
