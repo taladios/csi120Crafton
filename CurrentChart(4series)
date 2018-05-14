@@ -97,6 +97,7 @@ namespace CppWinForm1 {
 
 	private: System::Windows::Forms::GroupBox^  groupBox10;
 	public: System::Windows::Forms::DataVisualization::Charting::Chart^  chart1;
+	private: System::Windows::Forms::Label^ label17;
 	private:
 
 
@@ -174,6 +175,7 @@ namespace CppWinForm1 {
 			this->TotalPollution = (gcnew System::Windows::Forms::ProgressBar());
 			this->groupBox10 = (gcnew System::Windows::Forms::GroupBox());
 			this->chart1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
+			this->label17 = (gcnew System::Windows::Forms::Label());
 			this->groupBox1->SuspendLayout();
 			this->groupBox4->SuspendLayout();
 			this->groupBox3->SuspendLayout();
@@ -632,6 +634,7 @@ namespace CppWinForm1 {
 			// 
 			// groupBox10
 			// 
+			this->groupBox10->Controls->Add(this->label17);
 			this->groupBox10->Controls->Add(this->TotalPollution);
 			this->groupBox10->Font = (gcnew System::Drawing::Font(L"Tahoma", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
 			this->groupBox10->Location = System::Drawing::Point(682, 497);
@@ -683,6 +686,15 @@ namespace CppWinForm1 {
 			this->chart1->TabIndex = 6;
 			this->chart1->Text = L"chart1";
 			this->chart1->Click += gcnew System::EventHandler(this, &MyForm::chart1_Click);
+			// 
+			// label17
+			// 
+			this->label17->AutoSize = true;
+			this->label17->Location = System::Drawing::Point(248, 87);
+			this->label17->Name = L"label17";
+			this->label17->Size = System::Drawing::Size(16, 13);
+			this->label17->TabIndex = 4;
+			this->label17->Text = L"^";
 			// 
 			// MyForm
 			// 
