@@ -666,7 +666,7 @@ namespace CppWinForm1 {
 			series3->Points->Add(dataPoint3);
 			series4->ChartArea = L"ChartArea1";
 			series4->Legend = L"Legend1";
-			series4->Name = L"Cows";
+			series4->Name = L"Total";
 			series4->Points->Add(dataPoint4);
 			this->chart1->Series->Add(series1);
 			this->chart1->Series->Add(series2);
@@ -738,7 +738,7 @@ private: System::Void button1_Click_1(System::Object^  sender, System::EventArgs
 		dataPoint1 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, progressBar1->Value *2));
 		series1->Points->Add(dataPoint1);
 		series4->Points->Remove(dataPoint4);
-		dataPoint4 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, (progressBar1->Value + progressBar2->Value + progressBar3->Value) * 2 * .98));
+		dataPoint4 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, ((progressBar1->Value) + (progressBar2->Value) + (progressBar3->Value))/3 * 2 * .98));
 		series4->Points->Add(dataPoint4);
 		chartArea1->RecalculateAxesScale();
 		chart1->Refresh();
@@ -816,7 +816,7 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 		dataPoint1 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, progressBar1->Value * 2));
 		series1->Points->Add(dataPoint1);
 		series4->Points->Remove(dataPoint4);
-		dataPoint4 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, (progressBar1->Value + progressBar2->Value + progressBar3->Value) * 2 * .98));
+		dataPoint4 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, ((progressBar1->Value) + (progressBar2->Value) + (progressBar3->Value)) / 3 * 2 * .98));
 		series4->Points->Add(dataPoint4);
 		chartArea1->RecalculateAxesScale();
 		chart1->Refresh();
@@ -901,7 +901,7 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 		dataPoint2 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, progressBar2->Value * 2));
 		series2->Points->Add(dataPoint2);
 		series4->Points->Remove(dataPoint4);
-		dataPoint4 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, (progressBar1->Value + progressBar2->Value + progressBar3->Value) * 2 * .98));
+		dataPoint4 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, ((progressBar1->Value) + (progressBar2->Value) + (progressBar3->Value)) / 3 * 2 * .98));
 		series4->Points->Add(dataPoint4);
 		chartArea1->RecalculateAxesScale();
 		chart1->Refresh();
@@ -976,7 +976,7 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 		dataPoint2 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, progressBar2->Value * 2));
 		series2->Points->Add(dataPoint2);
 		series4->Points->Remove(dataPoint4);
-		dataPoint4 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, (progressBar1->Value + progressBar2->Value + progressBar3->Value) * 2 * .98));
+		dataPoint4 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, ((progressBar1->Value) + (progressBar2->Value) + (progressBar3->Value)) / 3 * 2 * .98));
 		series4->Points->Add(dataPoint4);
 		chartArea1->RecalculateAxesScale();
 		chart1->Refresh();
@@ -1052,7 +1052,7 @@ private: System::Void button6_Click(System::Object^  sender, System::EventArgs^ 
 	dataPoint3 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, progressBar3->Value * 2));
 	series3->Points->Add(dataPoint3);
 	series4->Points->Remove(dataPoint4);
-	dataPoint4 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, (progressBar1->Value + progressBar2->Value + progressBar3->Value) * 2 * .98));
+	dataPoint4 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, ((progressBar1->Value) + (progressBar2->Value) + (progressBar3->Value)) / 3 * 2 * .98));
 	series4->Points->Add(dataPoint4);
 	chartArea1->RecalculateAxesScale();
 	chart1->Refresh();
@@ -1118,7 +1118,7 @@ private: System::Void button5_Click(System::Object^  sender, System::EventArgs^ 
 	dataPoint3 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, progressBar3->Value * 2));
 	series3->Points->Add(dataPoint3);
 	series4->Points->Remove(dataPoint4);
-	dataPoint4 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, (progressBar1->Value + progressBar2->Value + progressBar3->Value) * 2 * .98));
+	dataPoint4 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0, ((progressBar1->Value) + (progressBar2->Value) + (progressBar3->Value)) / 3 * 2 * .98));
 	series4->Points->Add(dataPoint4);
 	chartArea1->RecalculateAxesScale();
 	chart1->Refresh();
